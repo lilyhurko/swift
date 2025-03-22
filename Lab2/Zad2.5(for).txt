@@ -1,0 +1,13 @@
+import Foundation
+
+var sum = 0
+
+for i in 1...3 {
+    let number = Int.random(in: 1...9)
+    print("Wygenerowana liczba \(i): \(number)")
+    sum += number
+}
+
+let average = Double(sum) / 3.0
+
+print(String(format: "Średnia arytmetyczna wynosi: %.2f", average))

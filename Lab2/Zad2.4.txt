@@ -1,0 +1,28 @@
+import Foundation
+
+print("Podaj długość pokoju (a) w metrach:")
+let roomLength = Double(readLine() ?? "") ?? 0.0
+
+print("Podaj szerokość pokoju (b) w metrach:")
+let roomWidth = Double(readLine() ?? "") ?? 0.0
+
+print("Podaj długość korytarza (x) w metrach:")
+let corridorLength = Double(readLine() ?? "") ?? 0.0
+
+print("Podaj szerokość drzwi (s) w metrach:")
+let doorWidth = Double(readLine() ?? "") ?? 0.0
+
+print("Podaj cenę listwy za metr bieżący:")
+let pricePerMeter = Double(readLine() ?? "") ?? 0.0
+
+
+let roomPerimeter = 2 * (roomLength + roomWidth)
+let corridorPerimeter = 2 * (corridorLength + roomWidth)
+let totalPerimeter = roomPerimeter + corridorPerimeter - doorWidth
+
+
+let totalCost = totalPerimeter * pricePerMeter
+
+
+print(String(format: "Potrzebujesz %.2f metrów bieżących listwy.", totalPerimeter))
+print(String(format: "Całkowity koszt listew wynosi: %.2f zł.", totalCost))

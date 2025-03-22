@@ -1,0 +1,57 @@
+Zadanie 1: 1. Napisz program, który wczyta temperatury (w stopniach Celsjusza) za pomocą pętli dla każdego dnia tygodnia i obliczy ich średnią. Przekształć wynik na stopnie Fahrenheita i wyświetl obie wartości (w Celsjuszach i Fahrenheitach) w jednej linii.
+
+Przykład widoku konsoli:
+
+Temperatura poniedziałkowa:
+Temperatura wtorkowa:
+---,,---
+
+Średnia temperatura w podanym tygodniu to X stopni Celsjusza (X Fahrenheita)
+
+Zadanie 2: 2. W programie zapisz swoje imię i nazwisko jako string, lecz używaj samych małych liter. Następnie program powinien wyświetlić inicjały (pierwsze litery imienia i nazwiska, zapisane wielkimi literami) oraz długość pełnego imienia i nazwiska (łączna liczba znaków, z uwzględnieniem spacji). Potem zmień cały string, aby był zapisany od tyłu, lecz samymi wielkimi literami i wyświetl go. Na koniec dokonaj modyfikacji: usuń z odwróconego stringa od jego początku liczbę znaków, ile plusów wykorzystałeś do tego kolokwium (w przypadku braku wykorzystania lub braku posiadania, wpisz 1). W przypadku usunięcia całego stringa, wyświetl "Na szczęście dla mnie wykorzystałem więcej plusów niż długość mojego imienia i nazwiska". Wyświetl potem ten zmodyfikowany string (w przykładzie widoku konsoli, została użyta liczba 5).
+
+
+Przykład widoku konsoli:
+Moje imię i nazwisko: Jan Kowalski
+Moje inicjały: JK
+Długość mojego imienia i nazwiska: 12 znaków
+String od tyłu: IKSLAWOK NAJ
+String po modyfikacjach: WOK NAJ
+
+
+Zadanie 3: 3. Napisz program, który wyświetli po przecinku za pomocą dowolnej pętli 5 liczb parzystych z przedziału <0,9>. Następnie jako stałą zapisz swój numer albumu nazywając tą zmienną swoim nazwiskiem, zsumuj wcześniej wyświetlone liczby oraz cyfry w swoim numerze albumu. Wyświetl stosowny komunikat, czy suma cyfr albumu jest większa, równa lub mniejsza niż suma wyświetlonych na początku liczb.
+
+Przykład widoku konsoli:
+
+Liczby: 0, 2, 4, 6, 8
+Mój numer albumu: 123456
+Suma liczb: 20
+Suma cyfr mojego albumu: 21
+Suma cyfr mojego albumu JEST MNIEJSZA niż suma wyświetlonych liczb.
+
+
+Zadanie 4: 4. Napisz program, który w formie dialogu wyświetli żart, który składa się co najmniej z 3 linii. Konsola powinna wyświetlić tekst z odpowiednim formatowaniem. Do przechowania tekstu dozwolona jest tylko i wyłącznie jedna zmienna. W żarcie musi być zawarty cudzysłów - może on być w losowym słowie. W ostatnim wierszu konsoli dodaj swoje inicjały imienia oraz nazwiska. Za kreatywny żart 1 pkt więcej - subiektywna opinia prowadzącego nie podlegająca negocjacji.
+
+Przykład widoku konsoli dla Jana Kowalskiego:
+
+Jan: Adam - kiedy Twoi koledzy programiści piją piwo.
+Adam: Zawsze w piątek.
+Jan: Ale dlaczego?
+Adam: Bo to ich sposób „kompilacji” na weekend!
+JK
+
+Zadanie 5: 5. Napisz program, który wczyta od użytkownika wymiary tablicy dwuwymiarowej - tylko liczbę wierszy, których liczba nie może być mniejsza niż 2. Liczba kolumn ma być równa liczbie cyfr w Twoim numerze albumu. W pierwszym wierszu tablicy umieść odpowiednio w kolumnach swój numer albumu. Następnie wczytaj od użytkownika wartości całkowite dla pozostałych miejsc w tablicy. Na koniec program ma znaleźć największą liczbę w tej tablicy i podać jej współrzędne (wiersz i kolumna) tak jak to widzi użytkownik w konsoli (licząc od 1). W ostatnim wierszu konsoli programu należy dodać swoje inicjały imienia i nazwiska z dużych liter.
+
+Przykład widoku konsoli dla Jana Kowalskiego o numerze albumu 123456:
+
+Podaj liczbę wierszy: 3
+Podaj wartości dla 2 wiersza: 654321
+Podaj wartości dla 3 wiersza: 122222
+-----
+Twoja tablica to:
+123456
+654321
+122222
+
+Największa liczba to 6 i znajduje się na pozycji: (1,6), (2,6).
+JK

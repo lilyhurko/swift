@@ -1,0 +1,12 @@
+import Foundation
+
+let number1 = Int.random(in: 1...9)
+let number2 = Int.random(in: 1...9)
+let number3 = Int.random(in: 1...9)
+
+
+let average = Double(number1 + number2 + number3) / 3.0
+
+
+print("Wygenerowane liczby to: \(number1), \(number2), \(number3)")
+print(String(format: "Średnia arytmetyczna wynosi: %.2f", average))

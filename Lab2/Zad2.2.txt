@@ -1,0 +1,15 @@
+import Foundation
+
+let pi = 3.14159
+
+print("Podaj promień koła:")
+if let input = readLine(), let radius = Double(input) {
+
+    let circumference = 2 * pi * radius
+    let area = pi * pow(radius, 2)
+    
+    print(String(format: "Promień: %.2f, Obwód: %.2f, Pole: %.2f", radius, circumference, area))
+} else {
+
+    print("Podano nieprawidłowe dane.")
+}

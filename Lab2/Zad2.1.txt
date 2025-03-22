@@ -1,0 +1,15 @@
+import Foundation
+
+// Ustawienie bieżącego roku jako stałą
+let currentYear = 2024
+
+// Wczytanie roku urodzenia
+print("Podaj rok urodzenia:")
+if let input = readLine(), let birthYear = Int(input) {
+    // Obliczenie wieku
+    let age = currentYear - birthYear
+    print("Masz \(age) lat.")
+} else {
+    // Obsługa nieprawidłowego wejścia
+    print("Podano nieprawidłowe dane.")
+}

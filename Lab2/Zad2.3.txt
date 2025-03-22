@@ -1,0 +1,12 @@
+import Foundation
+
+print("Podaj długość boku sześcianu:")
+if let input = readLine(), let side = Double(input) {
+    let surfaceArea = 6 * pow(side, 2)
+    let volume = pow(side, 3)
+    
+    print(String(format: "Bok: %.2f, Pole całkowite: %.2f, Objętość: %.2f", side, surfaceArea, volume))
+} else {
+
+    print("Podano nieprawidłowe dane.")
+}

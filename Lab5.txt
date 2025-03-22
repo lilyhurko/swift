@@ -1,0 +1,186 @@
+import Foundation
+
+// Zadanie 1
+func zadanie1() {
+    print("Wyswietlenie liczb z użyciem instrukcji for-in:")
+    for liczba in 1...25 {
+        print(liczba, terminator: " ")
+    }
+    print()
+
+    print("Wyswietlenie liczb z użyciem instrukcji while:")
+    var i = 1
+    let n = 25
+    while (i <= n) {
+        print(i, terminator: " ")
+        i += 1
+    }
+    print()
+
+    i = 1
+    print("Wyswietlenie liczb z użyciem instrukcji repeat-while:")
+    repeat {
+        print(i, terminator: " ")
+        i += 1
+    } while i <= n
+}
+
+// Zadanie 2
+func zadanie2() {
+    print("Wyswietlenie liczby całkowite z zakresu od 1 do 25, z krokiem 3 z użyciem instrukcji for-in:")
+    for liczba in stride(from: 1, to: 26, by: 3) {
+        print(liczba, terminator: " ")
+    }
+    print()
+
+    print("Wyswietlenie liczby całkowite z zakresu od 1 do 25, z krokiem 3 z użyciem instrukcji while:")
+    var i = 1
+    let n = 25
+    while (i <= n) {
+        print(i, terminator: " ")
+        i += 3
+    }
+    print()
+
+    i = 1
+    print("Wyswietlenie liczby całkowite z zakresu od 1 do 25, z krokiem 3 z użyciem instrukcji repeat-while:")
+    repeat {
+        print(i, terminator: " ")
+        i += 3
+    } while i <= n
+}
+
+// Zadanie 3
+func zadanie3() {
+    print("Podaj maksymalną wartość dla ciągu Fibonacciego:")
+    if let input = readLine(), let max = Int(input) {
+        var a = 0, b = 1
+        print("Ciąg Fibonacciego do wartości \(max):")
+        
+        while a <= max {
+            print(a, terminator: " ")
+            let nastLicz = a + b
+            a = b
+            b = nastLicz
+        }
+        print() // Dodanie nowej linii po zakończeniu
+    } else {
+        print("Niepoprawne dane wejściowe. Proszę podać liczbę całkowitą.")
+    }
+}
+
+// Zadanie 4
+func zadanie4() {
+    print("Podaj liczbę do sprawdzenia, czy jest liczbą pierwszą:")
+    if let input = readLine(), let num = Int(input) {
+        if zadanie4(num: num) {
+            print("\(num) jest liczbą pierwszą.")
+        } else {
+            print("\(num) nie jest liczbą pierwszą.")
+        }
+    } else {
+        print("Niepoprawne dane wejściowe. Proszę podać liczbę całkowitą.")
+    }
+}
+
+func zadanie4(num: Int) -> Bool {
+    if num < 2 { return false }
+    if num < 4 { return true }
+    for i in 2...Int(sqrt(Double(num))) {
+        if num % i == 0 { return false }
+    }
+    return true
+}
+
+// Zadanie 5
+func zadanie5() {
+    var str: String?
+    var a: Int?
+    
+    repeat {
+        print("Podaj liczbę trzycyfrową: ")
+        str = readLine()  
+        a = Int(str!) 
+    } while (a == nil) || (a! < 100 || a! > 999) 
+    
+
+    let sumOfDigits = digitSum(n: a!)
+    let average = Double(sumOfDigits) / 3.0 
+
+    print("Suma cyfr liczby \(a!) wynosi \(sumOfDigits).")
+    print("Średnia arytmetyczna cyfr liczby \(a!) wynosi \(average).")
+}
+
+func digitSum(n: Int) -> Int {
+    var sum = 0
+    var tempNumber = n
+
+    while tempNumber > 0 {
+        sum += tempNumber % 10 
+        tempNumber /= 10 
+    }
+    return sum 
+}
+
+
+// Zadanie 6
+func zadanie6() {
+        print("Podaj ciąg znaków do sprawdzenia, czy jest palindromem:")
+    let input = readLine() ?? ""
+    let reversedInput = String(input.reversed())
+
+    if input == reversedInput {
+        print("Ciąg \"\(input)\" jest palindromem.")
+    } else {
+        print("Ciąg \"\(input)\" nie jest palindromem.")
+    }
+}
+//zad7
+func zadanie7() {
+    var sum = 0  
+    var i = 0    
+
+    while i <= 7 { 
+        if i % 2 == 0 { 
+            i += 1 
+            continue 
+        }
+        
+        print(i) 
+        sum += i 
+        i += 1 
+    } 
+    
+    print("Suma elementów wynosi \(sum)") 
+}
+
+// Menu główne
+while true {
+    print("\nWybierz zadanie do uruchomienia (1-7) lub wpisz 0, aby zakończyć:")
+    
+    if let input = readLine(), let choice = Int(input) {
+        switch choice {
+        case 1:
+            zadanie1()
+        case 2:
+            zadanie2()
+        case 3:
+            zadanie3() 
+        case 4:
+            zadanie4() 
+        case 5:
+            zadanie5()
+        case 6:
+            zadanie6()
+        case 7:
+            zadanie7() 
+        case 0:
+            print("Zakończono program.")
+            exit(0)
+        default:
+            print("Niepoprawny wybór, spróbuj ponownie.")
+        }
+    } else {
+        print("Niepoprawne dane wejściowe.")
+    }
+}

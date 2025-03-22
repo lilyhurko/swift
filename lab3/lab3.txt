@@ -1,0 +1,324 @@
+import Foundation
+
+func zadanie1(){
+    let jednoliniowy = "To jest jednoliniowy łańcuch."
+    let wieloliniowy = """
+    To jest pierwszy wiersz.
+    To jest drugi wiersz.
+    To jest trzeci wiersz.
+    """
+    print(jednoliniowy)
+    print(wieloliniowy)
+}
+
+
+func zadanie2(){
+    let sformatowanyTekst = """
+    
+    \tNauka kodowania to nie tylko nauka języka technologii.
+    
+    \tTo odkrywanie nowych sposobów myślenia
+    
+    \ti urzeczywistnianie rozmaitych koncepcji.
+    
+    """
+    print(sformatowanyTekst)
+}
+
+
+func zadanie3(){
+    func walidujImieLubNazwisko(_ tekst: String) -> Bool {
+        let regex = try! NSRegularExpression(pattern: "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$")
+        let zakres = NSRange(location: 0, length: tekst.utf16.count)
+        return regex.firstMatch(in: tekst, options: [], range: zakres) != nil
+    }
+
+    func walidujRokUrodzenia(_ tekst: String) -> Bool {
+        let regex = try! NSRegularExpression(pattern: "^[0-9]+$")
+        let zakres = NSRange(location: 0, length: tekst.utf16.count)
+        return regex.firstMatch(in: tekst, options: [], range: zakres) != nil
+    }
+
+    func wczytajImieLubNazwisko(_ typ: String) -> String {
+        var wynik: String
+        repeat {
+            print("Podaj swoje \(typ):")
+            wynik = readLine() ?? ""
+            if !walidujImieLubNazwisko(wynik) {
+                print("Błąd: \(typ.capitalized) nie może zawierać cyfr. Spróbuj ponownie.")
+            }
+        } while !walidujImieLubNazwisko(wynik)
+        return wynik
+    }
+
+    func wczytajRokUrodzenia() -> Int {
+        var rokUrodzeniaString: String
+        repeat {
+            print("Podaj swój rok urodzenia:")
+            rokUrodzeniaString = readLine() ?? ""
+            if !walidujRokUrodzenia(rokUrodzeniaString) {
+                print("Błąd: Rok urodzenia może zawierać tylko cyfry. Spróbuj ponownie.")
+            }
+        } while !walidujRokUrodzenia(rokUrodzeniaString)
+        return Int(rokUrodzeniaString) ?? 0
+    }
+
+    let imie = wczytajImieLubNazwisko("imię")
+    let drugieImie = wczytajImieLubNazwisko("drugie imię")
+    let nazwisko = wczytajImieLubNazwisko("nazwisko")
+    let rokUrodzenia = wczytajRokUrodzenia()
+    var pelnyCiąg = "\(imie) \(drugieImie) \(nazwisko) \(rokUrodzenia)"
+    print("\nPolecenie 1: Nowy ciąg:")
+    print(pelnyCiąg)
+
+    pelnyCiąg = "\(imie) \(nazwisko) \(rokUrodzenia)"
+    print("\nPolecenie 2: Ciąg po usunięciu drugiego imienia:")
+    print(pelnyCiąg)
+
+    let aktualnyRok = Calendar.current.component(.year, from: Date())
+    let wiek = aktualnyRok - rokUrodzenia
+    pelnyCiąg = "\(imie) \(nazwisko), wiek: \(wiek)"
+    print("\nPolecenie 3: Ciąg po dodaniu wieku:")
+    print(pelnyCiąg)
+
+    if imie.prefix(1).uppercased() == "D" {
+        print("\nPolecenie 4: Imię zaczyna się na literę D.")
+    } else {
+        print("\nPolecenie 4: Imię nie zaczyna się na literę D.")
+    }
+}
+
+
+func zadanie4(){
+
+    func wczytajCiag() -> String {
+        var ciag: String
+        repeat {
+            print("Podaj ciąg znaków (musi mieć przynajmniej jeden znak):")
+            ciag = readLine() ?? ""
+            if ciag.isEmpty {
+                print("Błąd: Ciąg nie może być pusty.")
+            }
+        } while ciag.isEmpty
+        return ciag
+    }
+
+    func wczytajZnak() -> Character {
+        var znak: Character?
+        repeat {
+            print("Podaj pojedynczy znak:")
+            if let input = readLine(), input.count == 1 {
+                znak = input.first
+            } else {
+                print("Błąd: Wprowadź tylko jeden znak.")
+            }
+        } while znak == nil
+        return znak!
+    }
+
+    func wczytajLiczbe(ciag: String) -> Int {
+        var liczba: Int?
+        repeat {
+            print("Podaj liczbę całkowitą (mniejszą niż długość ciągu znaków):")
+            if let input = readLine(), let intValue = Int(input), intValue >= 0 && intValue < ciag.count {
+                liczba = intValue
+            } else {
+                print("Błąd: Wprowadź prawidłową liczbę całkowitą. Powinna być nieujemna i mniejsza niż długość ciągu (\(ciag.count)).")
+            }
+        } while liczba == nil
+        return liczba!
+    }
+
+    func sprawdzZnakWCiagu() {
+        let ciag = wczytajCiag()
+        let znak = wczytajZnak()
+        let liczba = wczytajLiczbe(ciag: ciag)
+
+
+        if ciag.first == znak {
+            print("Znak '\(znak)' znajduje się na początku ciągu.")
+        } else {
+            print("Znak '\(znak)' nie znajduje się na początku ciągu.")
+        }
+
+              if ciag.last == znak {
+            print("Znak '\(znak)' znajduje się na końcu ciągu.")
+        } else {
+            print("Znak '\(znak)' nie znajduje się na końcu ciągu.")
+        }
+
+                if ciag[ciag.index(ciag.startIndex, offsetBy: liczba)] == znak {
+            print("Znak '\(znak)' znajduje się na indeksie \(liczba) od początku ciągu.")
+        } else {
+            print("Znak '\(znak)' nie znajduje się na indeksie \(liczba) od początku ciągu.")
+        }
+
+              if ciag[ciag.index(ciag.endIndex, offsetBy: -liczba-1)] == znak {
+            print("Znak '\(znak)' znajduje się na indeksie \(liczba) od końca ciągu.")
+        } else {
+            print("Znak '\(znak)' nie znajduje się na indeksie \(liczba) od końca ciągu.")
+        }
+    }
+
+    sprawdzZnakWCiagu()
+}
+
+func zadanie5() {
+    func wczytajCiag(nazwa: String) -> String {
+        var ciag: String
+        repeat {
+            print("Podaj \(nazwa):")
+            ciag = readLine() ?? ""
+            if ciag.isEmpty {
+                print("Błąd: \(nazwa.capitalized) nie może być pusty. Spróbuj ponownie.")
+            }
+        } while ciag.isEmpty
+        return ciag
+    }
+
+    let c1 = wczytajCiag(nazwa: "pierwszy ciąg")
+    let c2 = wczytajCiag(nazwa: "drugi ciąg")
+    if c1 == c2 {
+        print("Ciągi są identyczne.")
+    } else {
+        print("Ciągi są różne.")
+    }
+
+    let pref = wczytajCiag(nazwa: "prefiks")
+
+    if c1.hasPrefix(pref) {
+        print("Pierwszy ciąg ma prefiks '\(pref)'.")
+    } else {
+        print("Pierwszy ciąg nie ma prefiksu '\(pref)'.")
+    }
+
+    if c2.hasPrefix(pref) {
+        print("Drugi ciąg ma prefiks '\(pref)'.")
+    } else {
+        print("Drugi ciąg nie ma prefiksu '\(pref)'.")
+    }
+
+
+    let suf = wczytajCiag(nazwa: "sufiks")
+    if c1.hasSuffix(suf) {
+        print("Pierwszy ciąg ma sufiks '\(suf)'.")
+    } else {
+        print("Pierwszy ciąg nie ma sufiksu '\(suf)'.")
+    }
+
+    if c2.hasSuffix(suf) {
+        print("Drugi ciąg ma sufiks '\(suf)'.")
+    } else {
+        print("Drugi ciąg nie ma sufiksu '\(suf)'.")
+    }
+}
+
+func zadanie6() {
+    func wczytajWymiaryProstokata() -> (szerokość: Double, wysokość: Double) {
+        var szerokość: Double
+        var wysokość: Double
+        
+        // Wczytywanie szerokości
+        repeat {
+            print("Podaj szerokość prostokąta:")
+            if let input = readLine(), let value = Double(input), value > 0 {
+                szerokość = value
+            } else {
+                print("Błąd: Proszę podać poprawną wartość dodatnią.")
+                szerokość = 0 // Ustawiamy na 0, aby kontynuować pętlę
+            }
+        } while szerokość <= 0
+        
+        // Wczytywanie wysokości
+        repeat {
+            print("Podaj wysokość prostokąta:")
+            if let input = readLine(), let value = Double(input), value > 0 {
+                wysokość = value
+            } else {
+                print("Błąd: Proszę podać poprawną wartość dodatnią.")
+                wysokość = 0 // Ustawiamy na 0, aby kontynuować pętlę
+            }
+        } while wysokość <= 0
+        
+        return (szerokość, wysokość)
+    }
+
+    func obliczObwod(szerokość: Double, wysokość: Double) -> Double {
+        return 2 * (szerokość + wysokość)
+    }
+
+    func obliczPole(szerokość: Double, wysokość: Double) -> Double {
+        return szerokość * wysokość
+    }
+
+    let wymiary = wczytajWymiaryProstokata()
+    let obwod = obliczObwod(szerokość: wymiary.szerokość, wysokość: wymiary.wysokość)
+    let pole = obliczPole(szerokość: wymiary.szerokość, wysokość: wymiary.wysokość)
+    
+    let wynik = """
+    Wymiary prostokąta:
+    Szerokość: \(wymiary.szerokość)
+    Wysokość: \(wymiary.wysokość)
+    Obwód: \(obwod)
+    Pole: \(pole)
+    """
+    
+    print(wynik)
+}
+
+func zadanie7() {
+    func wczytajKwotePLN() -> Double {
+        var kwota: Double
+        
+        // Wczytywanie kwoty w PLN
+        repeat {
+            print("Podaj kwotę w PLN:")
+            if let input = readLine(), let value = Double(input), value > 0 {
+                kwota = value
+            } else {
+                print("Błąd: Proszę podać poprawną wartość dodatnią.")
+                kwota = 0 // Ustawiamy na 0, aby kontynuować pętlę
+            }
+        } while kwota <= 0
+        
+        return kwota
+    }
+
+    let kursUSD = 3.9
+    let kwotaPLN = wczytajKwotePLN()
+    let kwotaUSD = kwotaPLN / kursUSD
+
+    print(String(format: "Kwota w PLN: %.2f PLN to %.2f $", kwotaPLN, kwotaUSD))
+}
+
+
+// Menu główne
+while true {
+    print("\nWybierz zadanie do uruchomienia (1-7) lub wpisz 0, aby zakończyć:")
+
+    if let input = readLine(), let choice = Int(input) {
+        switch choice {
+        case 1:
+            zadanie1()
+        case 2:
+            zadanie2()
+        case 3:
+            zadanie3()
+        case 4:
+            zadanie4()
+        case 5:
+            zadanie5()
+        case 6:
+            zadanie6()
+        case 7:
+            zadanie7()
+        case 0:
+            print("Zakończono program.")
+            exit(0)
+        default:
+            print("Niepoprawny wybór, spróbuj ponownie.")
+        }
+    } else {
+        print("Niepoprawne dane wejściowe.")
+    }
+}

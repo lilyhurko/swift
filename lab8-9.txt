@@ -1,0 +1,508 @@
+//Lab8
+
+func zadanie1() {
+    let osoba1 = (imie: "Ania", nazwisko: "Kowal", wiek: 36)
+    let osoba2 = (imie: "Kasia", nazwisko: "Kowalska", wiek: 25)
+    print("\(osoba1.imie) \(osoba1.nazwisko) ma \(osoba1.wiek) lat")
+    print("\(osoba2.imie) \(osoba2.nazwisko) ma \(osoba2.wiek) lat")
+    if osoba1.wiek > osoba2.wiek {
+        print("\(osoba1.imie) \(osoba1.nazwisko) jest starsza od \(osoba2.imie) \(osoba2.nazwisko)")
+    } else if osoba1.wiek < osoba2.wiek {
+        print("\(osoba1.imie) \(osoba1.nazwisko) jest mlodsza od \(osoba2.imie) \(osoba2.nazwisko)")
+    } else {
+        print("\(osoba1.imie) \(osoba1.nazwisko) sa w tym samym wieku \(osoba2.imie) \(osoba2.nazwisko)")
+    }
+}
+
+
+func zadanie2() {
+    func wczytajStudenta() -> (nazwisko: String, ocena1: Double, ocena2: Double, ocena3: Double) {
+        print("Podaj nazwisko studenta:")
+        let nazwisko = readLine() ?? "Nieznane"
+
+        func wczytajOcene(numer: Int) -> Double {
+            while true {
+                print("Podaj ocenę \(numer) (zakres 2.0-5.0):")
+                if let input = readLine(), let ocena = Double(input), ocena >= 2.0, ocena <= 5.0 {
+                    return ocena
+                }
+                print("Niepoprawna ocena. Spróbuj ponownie.")
+            }
+        }
+
+        let ocena1 = wczytajOcene(numer: 1)
+        let ocena2 = wczytajOcene(numer: 2)
+        let ocena3 = wczytajOcene(numer: 3)
+
+        return (nazwisko, ocena1, ocena2, ocena3)
+    }
+
+    print("Wprowadź dane dla trzech studentów.")
+    let student1 = wczytajStudenta()
+    let student2 = wczytajStudenta()
+    let student3 = wczytajStudenta()
+
+    let studenci = [
+        (nazwisko: student1.nazwisko, srednia: (student1.ocena1 + student1.ocena2 + student1.ocena3) / 3),
+        (nazwisko: student2.nazwisko, srednia: (student2.ocena1 + student2.ocena2 + student2.ocena3) / 3),
+        (nazwisko: student3.nazwisko, srednia: (student3.ocena1 + student3.ocena2 + student3.ocena3) / 3)
+    ]
+
+    let posortowaniStudenci = studenci.sorted { $0.srednia > $1.srednia }
+
+    print("\nStudenci posortowani według średniej ocen (malejąco):")
+    for student in posortowaniStudenci {
+        print("Student: \(student.nazwisko), Średnia: \(String(format: "%.2f", student.srednia))")
+    }
+}
+func zadanie3() {
+     print("Podaj liczbę mieszkań:")
+    guard let liczbaMieszkanInput = readLine(), let liczbaMieszkan = Int(liczbaMieszkanInput), liczbaMieszkan > 0 else {
+        print("Niepoprawna liczba mieszkań. Program zakończony.")
+        return
+    }
+
+    struct Mieszkanie {
+        let lokalizacja: String
+        let powierzchnia: Double
+        let cenaZaMetr: Double
+        var cenaCalkowita: Double {
+            return powierzchnia * cenaZaMetr
+        }
+    }
+
+    var mieszkania: [Mieszkanie] = []
+
+    for i in 1...liczbaMieszkan {
+        print("Wprowadź dane dla mieszkania \(i):")
+
+        print("Podaj lokalizację:")
+        let lokalizacja = readLine() ?? "Nieznana"
+
+        print("Podaj powierzchnię (w metrach kwadratowych):")
+        guard let powierzchniaInput = readLine(), let powierzchnia = Double(powierzchniaInput), powierzchnia > 0 else {
+            print("Niepoprawna powierzchnia. Spróbuj ponownie.")
+            return
+        }
+
+        print("Podaj cenę za metr kwadratowy:")
+        guard let cenaZaMetrInput = readLine(), let cenaZaMetr = Double(cenaZaMetrInput), cenaZaMetr > 0 else {
+            print("Niepoprawna cena za metr. Spróbuj ponownie.")
+            return
+        }
+
+        let mieszkanie = Mieszkanie(lokalizacja: lokalizacja, powierzchnia: powierzchnia, cenaZaMetr: cenaZaMetr)
+        mieszkania.append(mieszkanie)
+    }
+
+    guard let najdrozsze = mieszkania.max(by: { $0.cenaCalkowita < $1.cenaCalkowita }),
+          let najtansze = mieszkania.min(by: { $0.cenaCalkowita < $1.cenaCalkowita }) else {
+        print("Brak danych mieszkań.")
+        return
+    }
+
+    print("\nNajdroższe mieszkanie:")
+    print("Lokalizacja: \(najdrozsze.lokalizacja)")
+    print("Powierzchnia: \(najdrozsze.powierzchnia) m²")
+    print("Cena za metr: \(najdrozsze.cenaZaMetr) PLN")
+    print("Cena całkowita: \(String(format: "%.2f", najdrozsze.cenaCalkowita)) PLN")
+
+    print("\nNajtańsze mieszkanie:")
+    print("Lokalizacja: \(najtansze.lokalizacja)")
+    print("Powierzchnia: \(najtansze.powierzchnia) m²")
+    print("Cena za metr: \(najtansze.cenaZaMetr) PLN")
+    print("Cena całkowita: \(String(format: "%.2f", najtansze.cenaCalkowita)) PLN")
+}
+func zadanie4() {
+    enum Miesiac: String {
+        case styczen, luty, marzec, kwiecien, maj, czerwiec
+        case lipiec, sierpien, wrzesien, pazdziernik, listopad, grudzien
+    }
+
+    func dopasuj(dla miesiaca: Miesiac) {
+        let pora: String
+
+        switch miesiaca {
+        case .grudzien, .styczen, .luty:
+            pora = "Zima"
+        case .marzec, .kwiecien, .maj:
+            pora = "Wiosna"
+        case .czerwiec, .lipiec, .sierpien:
+            pora = "Lato"
+        case .wrzesien, .pazdziernik, .listopad:
+            pora = "Jesień"
+        }
+
+        print("Miesiac \(miesiaca.rawValue.capitalized) przyporządkowany jest do pory roku: \(pora).")
+    }
+
+    print("Podaj nazwe miesiaca: ")
+    if let input = readLine()?.lowercased(), let miesiac = Miesiac(rawValue: input) {
+        dopasuj(dla: miesiac)
+    } else {
+        print("Niepoprawna nazwa miesiąca, spróbuj ponownie.")
+    }
+}
+
+
+// Menu główne
+while true {
+    print("\nWybierz zadanie do uruchomienia (1-5) lub wpisz 0, aby zakończyć:")
+
+    if let input = readLine(), let choice = Int(input) {
+        switch choice {
+        case 1:
+            zadanie1()
+        case 2:
+            zadanie2()
+        case 3:
+            zadanie3()
+        case 4:
+            zadanie4()
+        case 5:
+            zadanie5()
+        case 0:
+            print("Zakończono program.")
+            exit(0)
+        default:
+            print("Niepoprawny wybór, spróbuj ponownie.")
+        }
+    } else {
+        print("Niepoprawne dane wejściowe.")
+    }
+    
+    //lab9
+import Foundation
+
+struct liczbaZesp {
+    var re: Double
+    var im: Double
+}
+
+// Функція для введення числа
+func wczytaj() -> liczbaZesp {
+    print("Podaj część rzeczywistą: ")
+    let re = Double(readLine() ?? "") ?? 0.0
+
+    print("Podaj część urojoną: ")
+    let im = Double(readLine() ?? "") ?? 0.0
+
+    return liczbaZesp(re: re, im: im)
+}
+
+// Додавання двох чисел
+func dodaj(_ a: liczbaZesp, _ b: liczbaZesp) -> liczbaZesp {
+    return liczbaZesp(
+        re: a.re + b.re,
+        im: a.im + b.im
+    )
+}
+
+// Віднімання двох чисел
+func odejmij(_ a: liczbaZesp, _ b: liczbaZesp) -> liczbaZesp {
+    return liczbaZesp(
+        re: a.re - b.re,
+        im: a.im - b.im
+    )
+}
+
+// Множення двох чисел
+func pomnoz(_ a: liczbaZesp, _ b: liczbaZesp) -> liczbaZesp {
+    return liczbaZesp(
+        re: a.re * b.re - a.im * b.im,
+        im: a.re * b.im + a.im * b.re
+    )
+}
+
+// Функція для відображення меню
+func pokazMenu() {
+    print("""
+    Wybierz opcję:
+    1. Dodaj dwie liczby zespolone
+    2. Odejmij dwie liczby zespolone
+    3. Pomnóż dwie liczby zespolone
+    0. Wyjdź
+    """)
+}
+
+// Основна функція
+func zadanie1() {
+    while true {
+        pokazMenu()
+        let wybor = Int(readLine() ?? "") ?? -1
+
+        if wybor == 0 {
+            print("Do widzenia!")
+            break
+        }
+
+        print("Wprowadź pierwszą liczbę zespoloną:")
+        let liczba1 = wczytaj()
+
+        print("Wprowadź drugą liczbę zespoloną:")
+        let liczba2 = wczytaj()
+
+        switch wybor {
+        case 1:
+            let wynik = dodaj(liczba1, liczba2)
+            print("Wynik dodawania: \(wynik.re) + \(wynik.im)i")
+        case 2:
+            let wynik = odejmij(liczba1, liczba2)
+            print("Wynik odejmowania: \(wynik.re) + \(wynik.im)i")
+        case 3:
+            let wynik = pomnoz(liczba1, liczba2)
+            print("Wynik mnożenia: \(wynik.re) + \(wynik.im)i")
+        default:
+            print("Niepoprawna opcja, spróbuj ponownie.")
+        }
+    }
+}
+func zadanie2() {
+    struct rzut {
+        var id: Int
+        var proba1: Double
+        var proba2: Double
+        var proba3: Double
+        func sredniaRz() -> Double {
+            return (proba1 + proba2 + proba3) / 3.0
+        }
+    }
+
+    var zawodnicy: [rzut] = []
+    
+    for i in 1...4 {  
+        print("Podaj dane dla zawodnika #\(i): ")
+        
+        print("Id: ")
+        let id = Int(readLine()!)!
+        
+        print("Wynik 1 proby: ")
+        let proba1 = Double(readLine()!)!
+        
+        print("Wynik 2 proby: ")
+        let proba2 = Double(readLine()!)!
+        
+        print("Wynik 3 proby: ")
+        let proba3 = Double(readLine()!)!
+        
+        let zawodnik = rzut(id: id, proba1: proba1, proba2: proba2, proba3: proba3)
+        zawodnicy.append(zawodnik)
+    }
+    
+    var najlepszyZaw: rzut?
+    var maxSr = 0.0
+    
+    for zawodnik in zawodnicy {
+        let srednia = zawodnik.sredniaRz()  
+        if srednia > maxSr {
+            maxSr = srednia
+            najlepszyZaw = zawodnik
+        }
+    }
+    if let najlepszy = najlepszyZaw {
+        print("\nZawodnik o najwyższej średniej: Zawodnik #\(najlepszy.id), Średnia: \(najlepszy.sredniaRz())")
+    }
+    
+    var najgorszyZaw: rzut?
+    var minSr = 999.0
+    
+    for zawodnik in zawodnicy {
+        let srednia = zawodnik.sredniaRz()
+        if srednia < minSr {
+            minSr = srednia
+            najgorszyZaw = zawodnik
+        }
+    }
+    if let najgorszy = najgorszyZaw, let index = zawodnicy.firstIndex(where: { $0.id == najgorszy.id }) {  
+        zawodnicy.remove(at: index)
+        print("\nZawodnik #\(najgorszy.id) został usunięty.")
+    }
+}
+
+func zadanie3(){
+    // Zbiór samochodów - używamy typu Set do przechowywania unikalnych modeli samochodów
+var samochody: Set<String> = []
+
+// Polecenie 2: Wprowadź nazwy dla 6 samochodów
+print("Wprowadź 6 nazw samochodów:")
+
+for i in 1...6 {
+    print("Samochód \(i):", terminator: " ")
+    if let samochod = readLine() {
+        samochody.insert(samochod) // Dodajemy model do zbioru
+    }
+}
+
+// Polecenie 3: Wyświetl wszystkie elementy zbioru
+print("\nWszystkie modele samochodów w zbiorze:")
+for samochod in samochody {
+    print(samochod)
+}
+
+// Polecenie 4: Wczytaj model samochodu i usuń go ze zbioru
+print("\nWprowadź model samochodu do usunięcia:")
+if let modelDoUsuniecia = readLine() {
+    if samochody.contains(modelDoUsuniecia) {
+        samochody.remove(modelDoUsuniecia) // Usuwamy model, jeśli istnieje
+        print("Samochód \(modelDoUsuniecia) został usunięty.")
+    } else {
+        print("Nie ma takiego modelu w zbiorze.")
+    }
+}
+
+// Wyświetlenie zmodyfikowanego zbioru
+print("\nZaktualizowane modele samochodów w zbiorze:")
+for samochod in samochody {
+    print(samochod)
+}
+}
+func zadanie4(){
+    import Foundation
+
+// Słownik, który przechowuje dane studentów - identyfikator jako klucz, nazwisko jako wartość
+var studenci: [String: String] = [:]
+
+// Polecenie 2: Dodaj 5 studentów na podstawie wczytanych danych
+print("Wprowadź dane 5 studentów:")
+
+for i in 1...5 {
+    print("Student \(i):")
+    print("Wprowadź identyfikator studenta: ", terminator: "")
+    let id = readLine() ?? ""
+    
+    print("Wprowadź nazwisko studenta: ", terminator: "")
+    let nazwisko = readLine() ?? ""
+    
+    studenci[id] = nazwisko // Dodajemy studenta do słownika
+}
+
+// Polecenie 3: Wyświetl wszystkie dane
+print("\nWszystkie dane studentów:")
+for (id, nazwisko) in studenci {
+    print("ID: \(id), Nazwisko: \(nazwisko)")
+}
+
+// Polecenie 4: Wczytaj dane studenta i wyszukaj go
+print("\nWprowadź identyfikator studenta do wyszukania:")
+let idDoWyszukania = readLine() ?? ""
+
+if let nazwisko = studenci[idDoWyszukania] {
+    print("Student o identyfikatorze \(idDoWyszukania): Nazwisko: \(nazwisko)")
+} else {
+    print("Nie znaleziono studenta o identyfikatorze \(idDoWyszukania).")
+}
+
+// Polecenie 5: Wczytaj dane studenta i usuń go, jeśli istnieje
+print("\nWprowadź identyfikator studenta do usunięcia:")
+let idDoUsuniecia = readLine() ?? ""
+
+if let _ = studenci.removeValue(forKey: idDoUsuniecia) {
+    print("Student o identyfikatorze \(idDoUsuniecia) został usunięty.")
+} else {
+    print("Nie znaleziono studenta o identyfikatorze \(idDoUsuniecia).")
+}
+
+// Wyświetlenie zmodyfikowanego słownika studentów
+print("\nZaktualizowane dane studentów:")
+for (id, nazwisko) in studenci {
+    print("ID: \(id), Nazwisko: \(nazwisko)")
+}
+
+}
+func zadanie5(){
+    struct Lot {
+    var miejsceWylotu: [String: String]
+    var miejsceDocelowe: [String: String]
+    var czasPodrozy: Int
+}
+
+// Funkcja główna programu
+func programLoty() {
+    var loty: [Lot] = []
+    
+    print("Podaj liczbę lotów do wczytania: ", terminator: "")
+    guard let nInput = readLine(), let n = Int(nInput), n > 0 else {
+        print("Niepoprawna liczba lotów.")
+        return
+    }
+    
+    // Wczytywanie danych dla n lotów
+    for i in 1...n {
+        print("\nWprowadź dane dla lotu \(i):")
+        
+        print("Numer lotniska wylotu: ", terminator: "")
+        let nrLotniskaWylotu = readLine() ?? ""
+        print("Nazwa lotniska wylotu: ", terminator: "")
+        let nazwaLotniskaWylotu = readLine() ?? ""
+        
+        print("Numer lotniska docelowego: ", terminator: "")
+        let nrLotniskaDocelowego = readLine() ?? ""
+        print("Nazwa lotniska docelowego: ", terminator: "")
+        let nazwaLotniskaDocelowego = readLine() ?? ""
+        
+        print("Czas podróży w minutach: ", terminator: "")
+        guard let czasInput = readLine(), let czasPodrozy = Int(czasInput), czasPodrozy > 0 else {
+            print("Niepoprawny czas podróży. Spróbuj ponownie.")
+            continue
+        }
+        
+        // Tworzenie lotu i dodawanie do tablicy
+        let lot = Lot(
+            miejsceWylotu: ["Numer": nrLotniskaWylotu, "Nazwa": nazwaLotniskaWylotu],
+            miejsceDocelowe: ["Numer": nrLotniskaDocelowego, "Nazwa": nazwaLotniskaDocelowego],
+            czasPodrozy: czasPodrozy
+        )
+        loty.append(lot)
+    }
+    
+    // Wyświetlanie wszystkich danych lotów
+    print("\nDane wszystkich lotów:")
+    for lot in loty {
+        print("Wylot: \(lot.miejsceWylotu), Docelowy: \(lot.miejsceDocelowe), Czas podróży: \(lot.czasPodrozy) minut")
+    }
+    
+    // Obliczanie średniego czasu podróży
+    let sredniaCzasu = loty.map { $0.czasPodrozy }.reduce(0, +) / loty.count
+    
+    // Wyświetlanie lotów trwających dłużej niż średnia
+    print("\nLoty trwające dłużej niż średnia (\(sredniaCzasu) minut):")
+    for lot in loty where lot.czasPodrozy > sredniaCzasu {
+        print("Wylot: \(lot.miejsceWylotu), Docelowy: \(lot.miejsceDocelowe), Czas podróży: \(lot.czasPodrozy) minut")
+    }
+    
+    // Usuwanie lotów krótszych niż średnia
+    loty.removeAll { $0.czasPodrozy < sredniaCzasu }
+    
+    // Wyświetlanie pozostałych lotów
+    print("\nDane lotów po usunięciu krótszych niż średnia:")
+    for lot in loty {
+        print("Wylot: \(lot.miejsceWylotu), Docelowy: \(lot.miejsceDocelowe), Czas podróży: \(lot.czasPodrozy) minut")
+    }
+}
+}
+// Menu główne
+while true {
+    print("\nWybierz zadanie do uruchomienia (1-5) lub wpisz 0, aby zakończyć:")
+
+    if let input = readLine(), let choice = Int(input) {
+        switch choice {
+        case 1:
+            zadanie1()
+        case 2:
+            zadanie2()
+        case 3:
+            zadanie3()
+        case 4:
+            zadanie4()
+        case 5:
+            zadanie5()
+        case 0:
+            print("Zakończono program.")
+            exit(0)
+        default:
+            print("Niepoprawny wybór, spróbuj ponownie.")
+        }
+    } else {
+        print("Niepoprawne dane wejściowe.")
+    }
+}

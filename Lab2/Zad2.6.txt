@@ -1,0 +1,38 @@
+import Foundation
+
+
+func readGradeAndWeight(gradeNumber: Int) -> (grade: Double, weight: Int) {
+    var grade: Double = 0.0
+    var weight: Int = 0
+    
+
+    repeat {
+        print("Podaj ocenę \(gradeNumber) (od 2 do 5):")
+        grade = Double(readLine() ?? "") ?? 0.0
+        if grade < 2.0 || grade > 5.0 {
+            print("Błąd: ocena musi być liczbą od 2 do 5.")
+        }
+    } while grade < 2.0 || grade > 5.0
+    
+
+    repeat {
+        print("Podaj wagę oceny \(gradeNumber) (od 1 do 3):")
+        weight = Int(readLine() ?? "") ?? 0
+        if weight < 1 || weight > 3 {
+            print("Błąd: waga musi być liczbą od 1 do 3.")
+        }
+    } while weight < 1 || weight > 3
+    
+    return (grade, weight)
+}
+
+let (grade1, weight1) = readGradeAndWeight(gradeNumber: 1)
+let (grade2, weight2) = readGradeAndWeight(gradeNumber: 2)
+let (grade3, weight3) = readGradeAndWeight(gradeNumber: 3)
+
+let weightedSum = (grade1 * Double(weight1)) + (grade2 * Double(weight2)) + (grade3 * Double(weight3))
+let totalWeight = weight1 + weight2 + weight3
+let weightedAverage = weightedSum / Double(totalWeight)
+
+
+print(String(format: "Ważona średnia ocen wynosi: %.2f", weightedAverage))

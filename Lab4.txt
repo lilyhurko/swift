@@ -1,0 +1,332 @@
+import Foundation
+
+// Zadanie 1
+func zadanie1() {
+    while true {
+        print("Podaj rok (tylko liczby):")
+        
+        if let input = readLine(), !input.isEmpty, let year = Int(input), year > 0 {
+            if isLeapYear(year: year) {
+                print("\(year) jest rokiem przestępnym.")
+            } else {
+                print("\(year) nie jest rokiem przestępnym.")
+            }
+            break 
+        } else {
+            print("Błędne dane. Proszę podać prawidłowy rok (tylko liczby).")
+        }
+    }
+}
+
+func isLeapYear(year: Int) -> Bool {
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
+}
+
+// Zadanie 2
+func toRomanNumerals(_ number: Int) -> String {
+    let romanValues = [
+        (10, "X"), (9, "IX"),
+        (5, "V"), (4, "IV"), (1, "I")
+    ]
+    
+    var result = ""
+    var number = number
+    
+    for (value, symbol) in romanValues {
+        while number >= value {
+            result += symbol
+            number -= value
+        }
+    }
+    
+    return result
+}
+
+func zadanie2() {
+    while true {
+        print("Podaj rok z zakresu <2, 3010>:")
+
+        if let input = readLine(), let year = Int(input), year >= 2, year <= 3010 {
+            let century = (year - 1) / 100 + 1
+            let centuryRoman = toRomanNumerals(century)
+            print("Rok \(year) to wiek \(centuryRoman) (\(century))")
+            break 
+        } else {
+            print("Błędne dane. Proszę podać liczbę całkowitą z zakresu <2, 3010>.")
+        }
+    }
+}
+
+// Zadanie 3
+func zadanie3() {
+    while true {
+        print("Podaj średnią ocen ze studiów (zakres 0.0 - 5.0):")
+
+        if let input = readLine(), let average = Double(input), average >= 0.0, average <= 5.0 {
+            let scholarship: Int
+            
+            if average > 4.5 {
+                scholarship = 200
+            } else if average >= 4.0 {
+                scholarship = 150
+            } else if average >= 3.0 {
+                scholarship = 100
+            } else {
+                scholarship = 0
+            }
+            
+            print("Dla średniej \(average) przysługuje stypendium w wysokości \(scholarship) PLN.")
+            break 
+        } else {
+            print("Błędne dane. Proszę podać liczbę z zakresu 0.0 - 5.0.")
+        }
+    }
+}
+
+// Zadanie 4
+func zadanie4(){
+    var number1: Int? = nil
+    var number2: Int? = nil
+
+    while number1 == nil {
+        print("Podaj pierwszą liczbę całkowitą:")
+        if let input1 = readLine(), let num1 = Int(input1) {
+            number1 = num1
+        } else {
+            print("Błędne dane. Proszę podać liczbę całkowitą.")
+        }
+    }
+
+
+    while number2 == nil {
+        print("Podaj drugą liczbę całkowitą:")
+        if let input2 = readLine(), let num2 = Int(input2) {
+            number2 = num2
+        } else {
+            print("Błędne dane. Proszę podać liczbę całkowitą.")
+        }
+    }
+
+    while true {
+        print("""
+        Wybierz operację:
+        1 - Dodawanie
+        2 - Odejmowanie
+        3 - Mnożenie
+        4 - Dzielenie
+        """)
+
+        if let choice = readLine(), let option = Int(choice), let num1 = number1, let num2 = number2 {
+            switch option {
+            case 1:
+                let result = num1 + num2
+                print("Wynik dodawania: \(result)")
+                return
+                
+            case 2:
+                let result = num1 - num2
+                print("Wynik odejmowania: \(result)")
+                return
+                
+            case 3:
+                let result = num1 * num2
+                print("Wynik mnożenia: \(result)")
+                return
+                
+            case 4:
+                if num2 != 0 {
+                    let result = Double(num1) / Double(num2)
+                    print("Wynik dzielenia: \(result)")
+                    return
+                } else {
+                    print("Błąd: dzielenie przez zero jest niemożliwe. Proszę podać nową wartość dla drugiej liczby.")
+                    number2 = nil // Resetowanie number2, aby ponownie poprosić o wprowadzenie liczby
+                    while number2 == nil {
+                        print("Podaj drugą liczbę całkowitą:")
+                        if let input2 = readLine(), let newNum2 = Int(input2) {
+                            number2 = newNum2
+                        } else {
+                            print("Błędne dane. Proszę podać liczbę całkowitą.")
+                        }
+                    }
+                }
+                
+            default:
+                print("Niepoprawny wybór, proszę wybrać opcję 1-4.")
+            }
+        } else {
+            print("Niepoprawne dane wejściowe. Proszę wybrać liczbę z zakresu 1-4.")
+        }
+    }
+}
+//Zad5
+func zadanie5() {
+    while true {
+        print("Podaj kod pocztowy (format: XX-XXX):")
+        
+        if let input = readLine(), isValidPostalCode(input) {
+            let region = getRegion(from: input)
+            print("Kod pocztowy \(input) należy do województwa \(region).")
+            break 
+        } else {
+            print("Błędne dane. Proszę podać kod pocztowy w poprawnym formacie.")
+        }
+    }
+}
+
+func isValidPostalCode(_ code: String) -> Bool {
+    // Sprawdzenie formatu kodu pocztowego
+    guard code.count == 6 else { return false }
+    let parts = code.split(separator: "-")
+    if parts.count != 2 { return false }
+    if parts[0].count != 2 || parts[1].count != 3 { return false }
+    
+    // Sprawdzenie, czy wszystkie znaki są cyframi
+    return parts[0].allSatisfy { $0.isWholeNumber } && parts[1].allSatisfy { $0.isWholeNumber }
+}
+
+func getRegion(from postalCode: String) -> String {
+    let prefix = Int(postalCode.prefix(2))!
+    switch prefix {
+    case 50 ... 59:
+        return "Dolnośląskie"
+    case 85 ... 89:
+        return "Kujawsko-Pomorskie"
+    case 20 ... 24:
+        return "Lubelskie"
+    case 65 ... 69:
+        return "Lubuskie"
+    case 90 ... 99:
+        return "Łódzkie"
+    case 30 ... 34:
+        return "Małopolskie"
+    case 0 ... 9:
+        return "Mazowieckie"
+    case 45 ... 49:
+        return "Opolskie"
+    case 35 ... 39:
+        return "Podkarpackie"
+    case 15 ... 19:
+        return "Podlaskie"
+    case 80 ... 84:
+        return "Pomorskie"
+    case 40 ... 44:
+        return "Śląskie"
+    case 25 ... 29:
+        return "Świętokrzyskie"
+    case 10 ... 14:
+        return "Warmińsko-Mazurskie"
+    case 60 ... 64:
+        return "Wielkopolskie"
+    case 70 ... 78:
+        return "Zachodniopomorskie"
+    default:
+        return "Nieznane"
+    }
+}
+
+//Zadanie6
+func zadanie6() {
+    while true {
+        print("Wprowadź jeden znak:")
+
+        if let input = readLine() {
+            if input.count == 1 {
+                let character = input.first!
+
+                switch character {
+                case "a", "e", "i", "o", "u", "y",
+                     "A", "E", "I", "O", "U", "Y":
+                    print("\(character) to samogłoska.")
+                    
+                case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "z",
+                     "B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Z":
+                    print("\(character) to spółgłoska.")
+                    
+                case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
+                    print("\(character) to cyfra.")
+                    
+                default:
+                    print("\(character) to inny znak.")
+                }
+                
+                // Zapytaj użytkownika, czy chce kontynuować
+                print("Czy chcesz wprowadzić kolejny znak? (t/n):")
+                if let continueInput = readLine(), continueInput.lowercased() != "t" {
+                    print("Zakończono program.")
+                    return
+                }
+            } else {
+                print("Błędne dane. Proszę podać dokładnie jeden znak.")
+            }
+        } else {
+            print("Błędne dane. Proszę podać dokładnie jeden znak.")
+        }
+    }
+}
+
+//Zadanie7
+func zadanie7() {
+    while true {
+        print("Wprowadź numer PESEL (11 cyfr):")
+
+        if let input = readLine(), isValidPESEL(input) {
+            let genderDigit = input[input.index(input.startIndex, offsetBy: 9)] 
+
+            switch genderDigit {
+            case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
+                if Int(String(genderDigit))! % 2 == 0 {
+                    print("PESEL \(input) reprezentuje kobietę.")
+                } else {
+                    print("PESEL \(input) reprezentuje mężczyznę.")
+                }
+            default:
+                print("Nieznany błąd.")
+            }
+
+            print("Czy chcesz wprowadzić kolejny PESEL? (t/n):")
+            if let continueInput = readLine(), continueInput.lowercased() != "t" {
+                print("Zakończono program.")
+                return
+            }
+        } else {
+            print("Błędne dane. Proszę podać PESEL w poprawnym formacie.")
+        }
+    }
+}
+
+func isValidPESEL(_ pesel: String) -> Bool {
+    return pesel.count == 11 && pesel.allSatisfy { $0.isNumber }
+}
+
+
+// Menu główne
+while true {
+    print("\nWybierz zadanie do uruchomienia (1-7) lub wpisz 0, aby zakończyć:")
+
+    if let input = readLine(), let choice = Int(input) {
+        switch choice {
+        case 1:
+            zadanie1()
+        case 2:
+            zadanie2()
+        case 3:
+            zadanie3()
+        case 4:
+            zadanie4()
+         case 5:
+            zadanie5()
+        case 6:
+            zadanie6()
+       case 7:
+            zadanie7() 
+        case 0:
+            print("Zakończono program.")
+            exit(0)
+        default:
+            print("Niepoprawny wybór, spróbuj ponownie.")
+        }
+    } else {
+        print("Niepoprawne dane wejściowe.")
+    }
+}
